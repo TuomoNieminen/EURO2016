@@ -1,0 +1,7 @@
+![](em_quarters.png)
+
+# Welcome
+
+This repository includes the codes for the statistical analysis of european soccer championship qualifier and final tournament data. The qualifier data was used to perform ordinal regression to predict final tournament match outcomes, using the qualifier data and uefa country ratings.
+
+The [GitHub page](https://tuomonieminen.github.io/EURO2016/) related to this repository includes parts of the analysis and [tyyppiarvo.com](http://tyyppiarvo.com/2016/06/jalkapallossa-kannattaa-laukoa-ennustimme-em-turnauksen-alkuvaiheen-ottelut-ja-jatkoonmenijat/) includes articles related to it in finnish.
