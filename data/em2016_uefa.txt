@@ -1,0 +1,25 @@
+Team	Coeff	Rank
+Spain	37962	2
+Germany	40236	1
+England	35963	3
+Portugal	35138	4
+Belgium	34442	5
+Italy	34345	6
+Russia	31345	9
+Switzerland	31254	10
+Austria	30932	11
+Croatia	30642	12
+Ukraine	30313	14
+Czech Republic	29403	15
+Sweden	29028	16
+Poland	28306	17
+Romania	28038	18
+Slovakia	27171	19
+Hungary	27142	20
+Turkey	27033	22
+Republic of Ireland	26902	23
+Iceland	25388	27
+Wales	24531	28
+Albania	23216	31
+Northern Ireland	22961	33
+France	33599	8

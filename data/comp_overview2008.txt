@@ -1,0 +1,17 @@
+Team	GS	GA	YC	RC	ON	OF	CO	FC
+GermanyGermany	10	7	7	1	24	17	26	93
+SpainSpain	12	3	8	0	51	15	35	114
+RussiaRussia	7	8	10	0	32	12	41	94
+TurkeyTurkey	8	9	16	1	26	8	28	102
+CroatiaCroatia	5	2	7	0	22	11	22	69
+ItalyItaly	3	4	9	0	17	15	23	70
+NetherlandsNetherlands	10	4	5	0	31	12	11	75
+PortugalPortugal	7	6	8	0	30	17	23	63
+AustriaAustria	1	3	8	0	14	1	21	52
+Czech RepublicCzech Republic	4	6	4	0	11	4	11	50
+FranceFrance	1	6	7	1	13	3	12	61
+GreeceGreece	1	5	8	0	14	11	14	45
+PolandPoland	1	4	7	0	15	11	16	67
+RomaniaRomania	1	3	7	0	8	10	9	47
+SwedenSweden	3	4	3	0	12	7	10	49
+SwitzerlandSwitzerland	3	3	8	0	23	8	17	66

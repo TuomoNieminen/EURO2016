@@ -1,0 +1,52 @@
+Team	GS	GA	YC	RC	ON	OF	CO	FC
+San MarinoSan Marino	0	53	30	2	11	19	8	146
+AzerbaijanAzerbaijan	10	26	14	1	30	16	30	119
+Faroe IslandsFaroe Islands	6	26	19	1	30	12	23	137
+AndorraAndorra	1	25	27	1	30	5	22	139
+KazakhstanKazakhstan	6	24	21	2	26	28	29	130
+LuxembourgLuxembourg	3	21	15	2	27	11	12	131
+MaltaMalta	4	21	19	0	27	21	30	130
+CyprusCyprus	7	20	15	1	27	34	26	105
+EstoniaEstonia	16	19	28	3	61	20	56	185
+LiechtensteinLiechtenstein	3	17	25	0	19	19	17	95
+AustriaAustria	16	17	13	1	43	19	37	126
+FinlandFinland	16	16	12	2	60	28	49	114
+MoldovaMoldova	12	16	9	1	48	31	36	104
+BelgiumBelgium	21	15	16	1	71	15	73	161
+PortugalPortugal	27	14	12	0	79	25	81	125
+Bosnia and HerzegovinaBosnia and Herzegovina	19	14	29	1	57	51	69	166
+TurkeyTurkey	13	14	20	1	55	27	71	149
+IcelandIceland	6	14	17	0	20	17	28	124
+AlbaniaAlbania	7	14	25	4	32	30	41	113
+FYR MacedoniaFYR Macedonia	8	14	25	3	50	27	53	139
+HungaryHungary	22	14	21	0	56	31	49	146
+BulgariaBulgaria	3	13	21	1	32	24	30	124
+LithuaniaLithuania	4	13	17	1	28	23	34	137
+Northern IrelandNorthern Ireland	9	13	17	0	39	31	44	113
+LatviaLatvia	9	12	25	0	29	13	40	167
+SwedenSweden	31	11	12	1	77	24	64	122
+IsraelIsrael	13	11	21	1	43	25	53	126
+MontenegroMontenegro	7	10	35	0	27	22	44	199
+ScotlandScotland	9	10	21	1	34	28	37	98
+SwitzerlandSwitzerland	12	10	15	2	52	17	44	103
+WalesWales	6	10	16	1	26	20	34	108
+ArmeniaArmenia	22	10	19	1	65	13	53	133
+SlovakiaSlovakia	7	10	24	0	63	26	62	155
+GeorgiaGeorgia	7	9	20	0	41	20	49	123
+RomaniaRomania	13	9	23	0	43	22	42	143
+SerbiaSerbia	13	9	25	0	64	17	58	121
+Czech RepublicCzech Republic	15	8	16	2	47	21	64	129
+NetherlandsNetherlands	37	8	4	0	83	25	63	114
+Republic of IrelandRepublic of Ireland	20	8	19	1	57	27	42	176
+GermanyGermany	34	7	7	0	87	26	62	68
+CroatiaCroatia	21	7	23	0	84	12	86	157
+NorwayNorway	10	7	12	0	32	15	39	95
+BelarusBelarus	8	7	26	3	28	33	37	144
+SloveniaSlovenia	11	7	17	1	47	25	69	140
+SpainSpain	26	6	3	0	86	24	70	78
+DenmarkDenmark	15	6	9	0	44	26	38	96
+EnglandEngland	17	5	13	1	38	23	43	97
+GreeceGreece	14	5	27	1	54	29	52	138
+FranceFrance	15	4	13	0	64	36	68	119
+RussiaRussia	17	4	19	0	59	27	69	147
+ItalyItaly	17	2	5	0	60	34	50	95

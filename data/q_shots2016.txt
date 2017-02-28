@@ -1,0 +1,54 @@
+Team	Total_attempts	Average	on_target	off_target	blocked	against_woodwork
+PolandPoland	164	16.4	79	58	27	5
+EnglandEngland	194	19.4	85	66	43	2
+BelgiumBelgium	207	20.7	76	83	48	6
+GermanyGermany	231	23.1	91	87	53	7
+SwitzerlandSwitzerland	195	19.5	74	78	43	5
+SpainSpain	183	18.3	64	70	49	6
+ScotlandScotland	115	11.5	46	46	23	2
+AustriaAustria	182	18.2	81	64	37	3
+Republic of IrelandRepublic of Ireland	129	10.75	57	43	29	2
+CroatiaCroatia	147	14.7	49	75	23	4
+Czech RepublicCzech Republic	132	13.2	41	52	39	2
+SloveniaSlovenia	147	12.25	53	62	32	2
+SwedenSweden	149	12.42	63	58	28	3
+RussiaRussia	167	16.7	59	69	39	2
+Bosnia and HerzegovinaBosnia and Herzegovina	185	15.42	55	84	46	5
+SlovakiaSlovakia	116	11.6	48	47	21	3
+NetherlandsNetherlands	182	18.2	72	69	41	6
+IcelandIceland	116	11.6	39	47	30	3
+UkraineUkraine	191	15.92	67	85	39	4
+Northern IrelandNorthern Ireland	126	12.6	47	56	23	2
+IsraelIsrael	135	13.5	58	51	26	3
+ItalyItaly	163	16.3	52	76	35	7
+CyprusCyprus	86	8.6	34	36	16	0
+TurkeyTurkey	149	14.9	54	64	31	4
+NorwayNorway	159	13.25	54	61	44	5
+HungaryHungary	132	11	55	54	23	1
+PortugalPortugal	121	15.13	41	54	26	5
+RomaniaRomania	132	13.2	43	63	26	4
+WalesWales	134	13.4	51	57	26	1
+DenmarkDenmark	137	13.7	42	62	33	5
+GeorgiaGeorgia	100	10	38	46	16	3
+MontenegroMontenegro	122	12.2	45	56	21	3
+FinlandFinland	104	10.4	44	40	20	2
+BulgariaBulgaria	98	9.8	27	43	28	4
+SerbiaSerbia	87	10.88	26	37	24	3
+BelarusBelarus	115	11.5	33	52	30	3
+AlbaniaAlbania	70	8.75	28	29	13	3
+GreeceGreece	127	12.7	34	65	28	5
+KazakhstanKazakhstan	80	8	30	39	11	2
+LithuaniaLithuania	102	10.2	33	48	21	1
+AzerbaijanAzerbaijan	87	8.7	32	35	20	0
+Faroe IslandsFaroe Islands	67	6.7	25	29	13	2
+LatviaLatvia	84	8.4	25	45	14	1
+FYR MacedoniaFYR Macedonia	95	9.5	33	40	22	3
+LuxembourgLuxembourg	93	9.3	32	41	20	2
+ArmeniaArmenia	89	11.13	29	35	25	1
+MoldovaMoldova	95	9.5	28	41	26	2
+AndorraAndorra	33	3.3	13	17	3	0
+EstoniaEstonia	100	10	25	47	28	1
+MaltaMalta	68	6.8	25	22	21	1
+LiechtensteinLiechtenstein	47	4.7	10	21	16	1
+GibraltarGibraltar	58	5.8	29	18	11	0
+San MarinoSan Marino	33	3.3	11	15	7	0

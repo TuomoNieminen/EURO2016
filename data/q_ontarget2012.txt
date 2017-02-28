@@ -1,0 +1,52 @@
+Team	Average	Total
+GermanyGermany	8.7	87
+SpainSpain	10.75	86
+CroatiaCroatia	7	84
+NetherlandsNetherlands	8.3	83
+PortugalPortugal	7.9	79
+SwedenSweden	7.7	77
+BelgiumBelgium	7.1	71
+ArmeniaArmenia	6.5	65
+FranceFrance	6.4	64
+SerbiaSerbia	6.4	64
+SlovakiaSlovakia	6.3	63
+EstoniaEstonia	5.08	61
+FinlandFinland	6	60
+ItalyItaly	6	60
+RussiaRussia	5.9	59
+Bosnia and HerzegovinaBosnia and Herzegovina	4.75	57
+Republic of IrelandRepublic of Ireland	4.75	57
+HungaryHungary	5.6	56
+TurkeyTurkey	4.58	55
+GreeceGreece	5.4	54
+SwitzerlandSwitzerland	6.5	52
+FYR MacedoniaFYR Macedonia	5	50
+MoldovaMoldova	4.8	48
+Czech RepublicCzech Republic	4.7	47
+SloveniaSlovenia	4.7	47
+DenmarkDenmark	5.5	44
+AustriaAustria	4.3	43
+IsraelIsrael	4.3	43
+RomaniaRomania	4.3	43
+GeorgiaGeorgia	4.1	41
+Northern IrelandNorthern Ireland	3.9	39
+EnglandEngland	4.75	38
+ScotlandScotland	4.25	34
+AlbaniaAlbania	3.2	32
+BulgariaBulgaria	4	32
+NorwayNorway	4	32
+AndorraAndorra	3	30
+AzerbaijanAzerbaijan	3	30
+Faroe IslandsFaroe Islands	3	30
+LatviaLatvia	2.9	29
+BelarusBelarus	2.8	28
+LithuaniaLithuania	3.5	28
+CyprusCyprus	3.38	27
+LuxembourgLuxembourg	2.7	27
+MaltaMalta	2.7	27
+MontenegroMontenegro	2.7	27
+KazakhstanKazakhstan	2.6	26
+WalesWales	3.25	26
+IcelandIceland	2.5	20
+LiechtensteinLiechtenstein	2.38	19
+San MarinoSan Marino	1.1	11

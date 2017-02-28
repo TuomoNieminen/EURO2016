@@ -1,0 +1,231 @@
+---
+title: "EURO2016"
+author: Tuomo Nieminen
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    theme: cosmo
+    df_print: paged
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+```
+
+# Welcome
+
+This GitHub page describes predicting the 2016 european soccer championships matches using ordinal regression. The GitHub repository related to this page is [here](https://github.com/TuomoNieminen/EURO2016) and an article in finnish describing the analysis is [here](http://tyyppiarvo.com/2016/06/jalkapallossa-kannattaa-laukoa-ennustimme-em-turnauksen-alkuvaiheen-ottelut-ja-jatkoonmenijat/)
+
+# Qualifier data
+
+## Features
+
+```{r}
+
+emq <- get(load("data/EUROq.Rda"))
+emq <- emq[complete.cases(emq),]
+names(emq)
+
+```
+
+## Correlations of ratios and differences
+
+```{r}
+
+# ratios and differences of team stats
+homevars <- substr(names(emq),1,5)=="homeq"
+awayvars <- substr(names(emq),1,5)=="awayq"
+#fifa
+
+homevars[7] <- T
+awayvars[8] <- T
+ratios <- emq[,homevars] / emq[,awayvars]
+diffs <- emq[,homevars] - emq[,awayvars]
+
+#correlations
+corrs <- rbind(cor_ratios=apply(ratios,2,cor,emq$goal_diff),
+               cor_diffs=apply(diffs,2,cor,emq$goal_diff))
+
+t(corrs)
+```
+
+## Shot ratio versus goal difference
+
+```{r}
+
+# a scatter plot of shots ratio and goal difference
+shot_ratio <- ratios[,4]
+goal_diff <- emq$goal_diff
+plot(shot_ratio, goal_diff,
+     xlab="SR", 
+     ylab="match goal difference",
+     main="Qualifier shot ratio (SR) 
+     versus tournament match goal difference 
+     EM 2008 & 2012",
+     col="green4", pch=20)
+abline(lm(goal_diff~shot_ratio), col="darksalmon")
+legend("bottomright",
+       legend=paste("correlation:",round(cor(shot_ratio, goal_diff),2)),
+       bty="n")
+
+```
+
+
+# Feature selection with regularized regression 
+
+```{r, message = FALSE}
+
+features <- cbind(ratios[,c(1,4)], diffs[,8])
+colnames(features) <- c("fifa_ratio","shot_ratio","corners_diff")
+outcome <- emq$outcome
+library(glmnetcr)
+netfit <- glmnet.cr(features, outcome, maxit=500)
+```
+
+## Bayesian information criteria
+
+```{r}
+
+par(mar=c(3,2,2,10), cex.axis=0.7)
+plot(netfit, xvar="step", type="aic")
+```
+
+## Coefficient path
+
+```{r}
+par(mar=c(3,2,2,10), cex.axis=0.7)
+plot(netfit, xvar = "step", type = "coefficients")
+# only shot_ratio is meaningful
+```
+
+## Ordinal regression with shot ratio
+
+```{r}
+library(MASS)
+fit1 <- polr(outcome ~ shot_ratio, Hess=T)
+cbind.data.frame(outcome = outcome, 
+                 prediction = predict(fit1, type="probs"))
+
+```
+
+
+# Uefa ratings
+
+## Uefa rating ratio versus goal difference
+
+```{r}
+
+emu <- read.csv2("data/em2012_uefa.csv", stringsAsFactors = F)
+emu$uefa_ratio <- emu$uefa_koti / emu$uefa_vieras
+emu$goal_diff <- emu$maalit_koti - emu$maalit_vieras
+
+# plot
+uefa_ratio <- emu$uefa_ratio
+goal_diff2 <- emu$goal_diff
+
+plot(uefa_ratio,goal_diff2,
+     xlab="UCR", 
+     ylab="match goal difference",
+     main="Uefa coefficient ratio (UCR) 
+     versus tournament match goal difference \n  EM 2012.",
+     col="green4", pch=20)
+abline(lm(goal_diff2~uefa_ratio), col="darksalmon")
+legend("bottomright",
+       legend=paste("correlation:",round(cor(uefa_ratio, goal_diff2),2)),
+       bty="n")
+
+```
+
+## Ordinal regression with uefa ratio
+
+```{r}
+
+# model based on 2012 uefa ratings
+# define the outcome
+emu$outcome <- 1
+emu$outcome[emu$goal_diff > 0] <- 3
+emu$outcome[emu$goal_diff < 0 ] <- 0
+emu$outcome <- factor(emu$outcome,ordered = T, levels=c(0,1,3),labels=c("loss","draw","win"))
+
+fit2 <- polr(outcome ~ uefa_ratio, Hess=T, data=emu)
+
+cbind.data.frame(outcome = emu$outcome, 
+                 prediction = predict(fit2, type="probs"))
+
+
+```
+
+# The 2016 matches and predictions
+
+```{r}
+
+# load 2016 matches
+matches2016 <- get(load("data/matches2016.Rda"))
+
+# use mass library to fit ordinal regression models
+library(MASS)
+
+# use the models to predict match outcome probabilities for 2016
+probs1 <- predict(fit1, newdata=matches2016, type="probs")
+probs2 <- predict(fit2, newdata=matches2016, type="probs")
+
+# combine the predictions with the match data
+
+predictions2016 <- 0.5*(probs1+probs2)[,3:1]
+alkulohko <- cbind(matches2016, predictions2016)
+
+# exclude the explanatory variables 
+alkulohko2016 <- alkulohko[,c("date","group","hometeam","awayteam","win","draw","loss", "homeuefa", "awayuefa", "uefa_ratio", "homeavrg_shots", "awayavrg_shots", "shot_ratio")]
+alkulohko2016
+```
+
+## Expected points per match
+
+```{r}
+
+# calculate expected points per match
+getEV <- function(p) {sum(c(3,1,0)*p)}
+homePoints <- apply(predictions2016, 1, getEV)
+awayPoints <- apply(predictions2016[,3:1], 1, getEV)
+alkulohko2016 <- cbind(alkulohko2016[, 1:7], homePoints, awayPoints)
+# rounding
+alkulohko2016[,5:9] <- round(alkulohko2016[,5:9], 2)
+
+alkulohko2016
+```
+
+## Expected points by group
+
+```{r}
+
+# calculate expected points by group
+
+#  function
+get_total_points <- function(data, team) {
+  homedata <- data[data$hometeam==team,]
+  awaydata <- data[data$awayteam==team,]
+  homeEV <- sum(homedata$homePoints)
+  awayEV <- sum(awaydata$awayPoints)
+  return(homeEV+awayEV)
+}
+
+group <- alkulohko2016$group
+
+#  group predictions
+by(alkulohko2016,group,FUN=function(d) {
+  teams <- unique(c(d$hometeam,d$awayteam))
+  points <- t(sort(sapply(teams,get_total_points,data=d),decreasing = T))
+  rownames(points) <- "points"
+  points
+})
+
+```
+
+<br>
+
+<hr>
+
+Tuomo Nieminen 2017
+
+<br>
