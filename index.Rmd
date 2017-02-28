@@ -27,31 +27,22 @@ Articles (in finnish) describing the analysis and the predictions for the EURO 2
 
 Note that all articles are in Finnish.
 
-# Qualifier data
+# 2008 & 2012 qualifier and final tournament data
 
-I used statistics from the EURO championship qualifiers of 2008 and 2012 and studied how these could be used to predict match outcomes in the final tournament.
-
-## Features
+I combined the statistics from the 2008 and 2012 qualifiers ("homeq" and "awayq" features) with the results of the EURO 2008 and 2012 final tournaments and studied how the qualifier statistics could be used to predict match outcomes.
 
 
 ```{r}
-
 emq <- get(load("data/EUROq.Rda"))
 emq <- emq[complete.cases(emq),]
-names(emq)
-
+emq
 ```
 
 ## Feature engineering
 
-Since only the relative strength of two teams can be though to predict the outcome, I studied the ratios and differences of the qualifier statistics as predictors for the final tournament match goal differences and outcomes.
-
-## Correlations of qualifier stats versus final tournament goal difference
-
-I studied the connections of hometeam versus awayteam qualifier statistic ratios and differences against the final tournament match goal differences, using correlations. I did this to choose which statistics and which version (ratio or difference) I should use as predictors.
+Since only the relative strength of two teams can be though to predict the outcome of a match, I studied the ratios and differences of the qualifier statistics as predictors for the final tournament match goal differences and -outcomes.
 
 ```{r}
-
 # ratios and differences of team stats
 homevars <- substr(names(emq),1,5)=="homeq"
 awayvars <- substr(names(emq),1,5)=="awayq"
@@ -61,6 +52,18 @@ homevars[7] <- T
 awayvars[8] <- T
 ratios <- emq[,homevars] / emq[,awayvars]
 diffs <- emq[,homevars] - emq[,awayvars]
+
+names(ratios) <- gsub("home", "", names(ratios))
+names(diffs) <- names(ratios)
+```
+
+
+## Correlations of qualifier stats and final tournament goal difference
+
+I studied the connections of hometeam vs. awayteam qualifier statistics ratios and differences with the final tournament match goal differences, using scatter plots and correlations. I did this to choose which statistics and which version (ratio or difference) I should use as predictors for the match outcomes.
+
+
+```{r}
 
 #correlations
 corrs <- rbind(cor_ratios=apply(ratios, 2, cor, emq$goal_diff),
@@ -74,14 +77,23 @@ t(corrs)
 
 <br>
 
+## Ratios of qualifier stats versus tournament match goal differences
+
+```{r, fig.cap ="Linear connections between ratios of qualifier statistics and tournament match goal differences. All the statistics related to shot attempts have positive linear connections with the match goal difference."}
+library(reshape2)
+library(ggplot2)
+df <- melt(cbind(goaldiff = emq$goal_diff, ratios), id.vars = "goaldiff")
+ggplot(df, aes(value, goaldiff)) + geom_point() +geom_smooth(method = "lm") + facet_wrap("variable", scales = "free") + ggtitle("Qualifier statistic ratios vs. tournament goal differences, EURO 2008 & 2012")
+```
+
 # Feature selection with regularized regression 
 
-I fit an ordinal regression model with final tournament match outcome as the target variable and a selection of features correlating with the match goal difference as the explanatory variables. I used lasso regularisation to study which qualifier features best explain the final tournament match outcome.
+To study the explanatory power of the qualifier statistics more closely, I fit an ordinal regression model with the final tournament match outcome as the target variable and a selection of promising features (those correlating with the match goal difference) as the explanatory variables. I used lasso regularisation to study which features best explain the final tournament match outcome.
 
 ```{r, message = FALSE}
 
 features <- cbind(ratios[,1:4], diffs[,8])
-colnames(features) <- c("fifa_r","on_r","off_r", "shot_r","corners_d")
+colnames(features) <- c("fifa_r","ontarget_r","offtarget_r", "shot_r","corners_d")
 outcome <- emq$outcome
 library(glmnetcr)
 netfit <- glmnet.cr(features, outcome, maxit=500)
@@ -89,9 +101,9 @@ netfit <- glmnet.cr(features, outcome, maxit=500)
 
 ## Bayesian information criteria and coefficient path (1)
 
-```{r, fig.cap = "Bayesian information criteria (BIC) and the value of coefficients by the amount of regularization used in ordinal regression, where final tournament match outcomes are predicted by ratios or differences in qualifier match statistics. The best solution is the one where BIC is lowest. Only the offtarget shot ratio deviates from zero at this point."}
+```{r, fig.cap = "Akaike information criteria (AIC) and the value of coefficients by the amount of regularization used (step) in ordinal regression, where final tournament match outcomes are predicted by ratios or differences in qualifier match statistics. The best solution is the one where AIC is lowest. Only the offtarget shot ratio deviates from zero at this point."}
 
-par(mfrow = c(2,1), mar=c(3,2,2,10), cex.axis=0.7)
+par(mfrow = c(2,1), mar=c(4,4,2,10), cex.axis=0.7)
 plot(netfit, xvar="step", type="aic")
 plot(netfit, xvar = "step", type = "coefficients")
 
@@ -110,9 +122,9 @@ netfit2 <- glmnet.cr(features2, outcome, maxit=500)
 
 ## Bayesian information criteria and coefficient path (2)
 
-```{r, fig.cap = "Bayesian information criteria (BIC) and the value of coefficients by the amount of regularization used in ordinal regression, where final tournament match outcomes are predicted by ratios or differences in qualifier match statistics. The best solution is the one where BIC is lowest. Only the shot ratio deviates from zero at this point."}
+```{r, fig.cap = "Akaike information criteria (AIC) and the value of coefficients by the amount of regularization used in ordinal regression, where final tournament match outcomes are predicted by ratios or differences in qualifier match statistics. The best solution is the one where AIC is lowest. Only the shot ratio deviates from zero at this point."}
 
-par(mfrow = c(2,1), mar=c(3,2,2,10), cex.axis=0.7)
+par(mfrow = c(2,1), mar=c(4,4,2,10), cex.axis=0.7)
 plot(netfit2, xvar="step", type="aic")
 plot(netfit2, xvar = "step", type = "coefficients")
 
@@ -120,23 +132,22 @@ plot(netfit2, xvar = "step", type = "coefficients")
 
 <br>
 
-## A scatter plot of shot ratio versus goal difference
+## Qualifier shot ratio versus final tournament match goal difference
 
 ```{r}
 
 # a scatter plot of shots ratio and goal difference
-shot_ratio <- ratios[,4]
-goal_diff <- emq$goal_diff
-plot(shot_ratio, goal_diff,
+emq$shot_ratio <- ratios[,4]
+plot(emq$shot_ratio, emq$goal_diff,
      xlab="SR", 
      ylab="match goal difference",
      main="Qualifier shot ratio (SR) 
      versus tournament match goal difference 
      EM 2008 & 2012",
      col="green4", pch=20)
-abline(lm(goal_diff~shot_ratio), col="darksalmon")
+abline(lm(goal_diff~shot_ratio, data = emq), col="darksalmon")
 legend("bottomright",
-       legend=paste("correlation:",round(cor(shot_ratio, goal_diff),2)),
+       legend=paste("correlation:",round(cor(emq$shot_ratio, emq$goal_diff),2)),
        bty="n")
 
 ```
@@ -145,19 +156,18 @@ legend("bottomright",
 
 ## Ordinal regression with shot ratio
 
-I fit the first of two ordinal regression models using only the qualifiers shot ratio as the explanatory variable.
+I an ordinal regression models using only the qualifiers shot ratio as explanatory variable. The table shows the prediction made by the model and the data used to train the model (EURO 2008 % 2012 tournament matches).
 
 ```{r}
 library(MASS)
-fit1 <- polr(outcome ~ shot_ratio, Hess=T)
-cbind.data.frame(outcome = outcome, 
-                 prediction = predict(fit1, type="probs"))
+fit1 <- polr(outcome ~ shot_ratio, Hess=T, data = emq)
+cbind.data.frame(emq[,c("hometeam","awayteam","outcome")], predict(fit1, type="probs"))
 ```
 
 
 # Uefa ratings
 
-I also studied the pre-tournament uefa rating as a predictor to the matches. The definition of the uefa rating changed after 2008 so only the data from 2012 could be used in the analysis.
+I also studied the pre-tournament uefa rating as a predictor to the match outcomes. The definition of the uefa rating changed after 2008 so only the data from 2012 could be used in the analysis.
 
 ## Correlation of pre-tournament uefa ratio and tournament match goal difference
 
@@ -167,11 +177,10 @@ emu <- read.csv2("data/em2012_uefa.csv", stringsAsFactors = F)
 emu$uefa_ratio <- emu$uefa_koti / emu$uefa_vieras
 emu$goal_diff <- emu$maalit_koti - emu$maalit_vieras
 
-uefa_ratio <- emu$uefa_ratio
-goal_diff2 <- emu$goal_diff
-
-cor.test(uefa_ratio, goal_diff2)
+with(emu,cor.test(uefa_ratio, goal_diff))
 ```
+
+*The correlation between ratios of pre-tournament uefa rating and tournament match goal difference is positive and statistically significant.*  
 
 <br>
 
@@ -179,16 +188,18 @@ cor.test(uefa_ratio, goal_diff2)
 
 ```{r}
 
-plot(uefa_ratio,goal_diff2,
-     xlab="UCR", 
-     ylab="match goal difference",
-     main="Uefa coefficient ratio (UCR) 
+with(emu,{
+     plot(uefa_ratio,goal_diff,
+          xlab="UCR", 
+          ylab="match goal difference",
+          main="Uefa coefficient ratio (UCR) 
      versus tournament match goal difference \n  EM 2012.",
      col="green4", pch=20)
-abline(lm(goal_diff2~uefa_ratio), col="darksalmon")
-legend("bottomright",
-       legend=paste("correlation:",round(cor(uefa_ratio, goal_diff2),2)),
-       bty="n")
+     abline(lm(goal_diff~uefa_ratio), col="darksalmon")
+     legend("bottomright",
+            legend=paste("correlation:",round(cor(uefa_ratio, goal_diff),2)),
+            bty="n")}
+     )
 
 ```
 
@@ -196,7 +207,7 @@ legend("bottomright",
 
 ## Ordinal regression with uefa ratio
 
-Pre-tournament uefa ratio correlated reasonably with the final tournament match goals so I fit a second ordinal regression model using the uefa ratio as a predictor.
+Pre-tournament uefa ratio correlated reasonably with the final tournament match goals so I fit a second ordinal regression model using the uefa ratio as a predictor. The table shows the predictions made by the model and the data used to train the model (EURO 2012 tournament matches).
 
 ```{r}
 # model based on 2012 uefa ratings
@@ -208,8 +219,7 @@ emu$outcome <- factor(emu$outcome,ordered = T, levels=c(0,1,3),labels=c("loss","
 
 fit2 <- polr(outcome ~ uefa_ratio, Hess=T, data=emu)
 
-cbind.data.frame(outcome = emu$outcome, 
-                 prediction = predict(fit2, type="probs"))
+cbind.data.frame(emu[,c("kotijoukkue","vierasjoukkue","outcome")], predict(fit2, type="probs"))
 
 ```
 
